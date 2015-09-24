@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>doT-1.0.1.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="dot.html">
+                  dot.js
+                </a>
+              
+                
+                <a class="source" href="doT-1.0.1.html">
+                  doT-1.0.1.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>doT-1.0.1.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>doT.js
+2011, Laura Doktorova, <a href="https://github.com/olado/doT">https://github.com/olado/doT</a>
+Licensed under the MIT license.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-pi">  "use strict"</span>;
+
+  <span class="hljs-keyword">var</span> doT = {
+    version: <span class="hljs-string">'1.0.1'</span>,
+    templateSettings: {
+      evaluate:    <span class="hljs-regexp">/\{\{([\s\S]+?(\}?)+)\}\}/g</span>,
+      interpolate: <span class="hljs-regexp">/\{\{=([\s\S]+?)\}\}/g</span>,
+      encode:      <span class="hljs-regexp">/\{\{!([\s\S]+?)\}\}/g</span>,
+      use:         <span class="hljs-regexp">/\{\{#([\s\S]+?)\}\}/g</span>,
+      useParams:   <span class="hljs-regexp">/(^|[^\w$])def(?:\.|\[[\'\"])([\w$\.]+)(?:[\'\"]\])?\s*\:\s*([\w$\.]+|\"[^\"]+\"|\'[^\']+\'|\{[^\}]+\})/g</span>,
+      define:      <span class="hljs-regexp">/\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g</span>,
+      defineParams:<span class="hljs-regexp">/^\s*([\w$]+):([\s\S]+)/</span>,
+      conditional: <span class="hljs-regexp">/\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g</span>,
+      iterate:     <span class="hljs-regexp">/\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g</span>,
+      varname:	<span class="hljs-string">'it'</span>,
+      strip:		<span class="hljs-literal">true</span>,
+      append:		<span class="hljs-literal">true</span>,
+      selfcontained: <span class="hljs-literal">false</span>
+    },
+    template: <span class="hljs-literal">undefined</span>, <span class="hljs-comment">//fn, compile template</span>
+    compile:  <span class="hljs-literal">undefined</span>  <span class="hljs-comment">//fn, for express</span>
+  }, global;
+
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-built_in">module</span>.exports) {
+    <span class="hljs-built_in">module</span>.exports = doT;
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">'function'</span> &amp;&amp; define.amd) {
+    define(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{<span class="hljs-keyword">return</span> doT;});
+  } <span class="hljs-keyword">else</span> {
+    global = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{ <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span> || (<span class="hljs-number">0</span>,<span class="hljs-built_in">eval</span>)(<span class="hljs-string">'this'</span>); }());
+    global.doT = doT;
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">encodeHTMLSource</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> encodeHTMLRules = { <span class="hljs-string">"&amp;"</span>: <span class="hljs-string">"&amp;#38;"</span>, <span class="hljs-string">"&lt;"</span>: <span class="hljs-string">"&amp;#60;"</span>, <span class="hljs-string">"&gt;"</span>: <span class="hljs-string">"&amp;#62;"</span>, <span class="hljs-string">'"'</span>: <span class="hljs-string">'&amp;#34;'</span>, <span class="hljs-string">"'"</span>: <span class="hljs-string">'&amp;#39;'</span>, <span class="hljs-string">"/"</span>: <span class="hljs-string">'&amp;#47;'</span> },
+      matchHTML = <span class="hljs-regexp">/&amp;(?!#?\w+;)|&lt;|&gt;|"|'|\//g</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span> ? <span class="hljs-keyword">this</span>.replace(matchHTML, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m</span>) </span>{<span class="hljs-keyword">return</span> encodeHTMLRules[m] || m;}) : <span class="hljs-keyword">this</span>;
+    };
+  }
+  <span class="hljs-built_in">String</span>.prototype.encodeHTML = encodeHTMLSource();
+
+  <span class="hljs-keyword">var</span> startend = {
+    append: { start: <span class="hljs-string">"'+("</span>,      end: <span class="hljs-string">")+'"</span>,      endencode: <span class="hljs-string">"||'').toString().encodeHTML()+'"</span> },
+    split:  { start: <span class="hljs-string">"';out+=("</span>, end: <span class="hljs-string">");out+='"</span>, endencode: <span class="hljs-string">"||'').toString().encodeHTML();out+='"</span>}
+  }, skip = <span class="hljs-regexp">/$^/</span>;
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">resolveDefs</span>(<span class="hljs-params">c, block, def</span>) </span>{
+    <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">typeof</span> block === <span class="hljs-string">'string'</span>) ? block : block.toString())
+      .replace(c.define || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, code, assign, value</span>) </span>{
+        <span class="hljs-keyword">if</span> (code.indexOf(<span class="hljs-string">'def.'</span>) === <span class="hljs-number">0</span>) {
+          code = code.substring(<span class="hljs-number">4</span>);
+        }
+        <span class="hljs-keyword">if</span> (!(code <span class="hljs-keyword">in</span> def)) {
+          <span class="hljs-keyword">if</span> (assign === <span class="hljs-string">':'</span>) {
+            <span class="hljs-keyword">if</span> (c.defineParams) value.replace(c.defineParams, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, param, v</span>) </span>{
+              def[code] = {arg: param, text: v};
+            });
+            <span class="hljs-keyword">if</span> (!(code <span class="hljs-keyword">in</span> def)) def[code]= value;
+          } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">"def"</span>, <span class="hljs-string">"def['"</span>+code+<span class="hljs-string">"']="</span> + value)(def);
+          }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-string">''</span>;
+      })
+      .replace(c.use || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, code</span>) </span>{
+        <span class="hljs-keyword">if</span> (c.useParams) code = code.replace(c.useParams, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, s, d, param</span>) </span>{
+          <span class="hljs-keyword">if</span> (def[d] &amp;&amp; def[d].arg &amp;&amp; param) {
+            <span class="hljs-keyword">var</span> rw = (d+<span class="hljs-string">":"</span>+param).replace(<span class="hljs-regexp">/'|\\/g</span>, <span class="hljs-string">'_'</span>);
+            def.__exp = def.__exp || {};
+            def.__exp[rw] = def[d].text.replace(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">"(^|[^\\w$])"</span> + def[d].arg + <span class="hljs-string">"([^\\w$])"</span>, <span class="hljs-string">"g"</span>), <span class="hljs-string">"$1"</span> + param + <span class="hljs-string">"$2"</span>);
+            <span class="hljs-keyword">return</span> s + <span class="hljs-string">"def.__exp['"</span>+rw+<span class="hljs-string">"']"</span>;
+          }
+        });
+        <span class="hljs-keyword">var</span> v = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">"def"</span>, <span class="hljs-string">"return "</span> + code)(def);
+        <span class="hljs-keyword">return</span> v ? resolveDefs(c, v, def) : v;
+      });
+  }
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unescape</span>(<span class="hljs-params">code</span>) </span>{
+    <span class="hljs-keyword">return</span> code.replace(<span class="hljs-regexp">/\\('|\\)/g</span>, <span class="hljs-string">"$1"</span>).replace(<span class="hljs-regexp">/[\r\t\n]/g</span>, <span class="hljs-string">' '</span>);
+  }
+
+  doT.template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tmpl, c, def</span>) </span>{
+    c = c || doT.templateSettings;
+    <span class="hljs-keyword">var</span> cse = c.append ? startend.append : startend.split, needhtmlencode, sid = <span class="hljs-number">0</span>, indv,
+      str  = (c.use || c.define) ? resolveDefs(c, tmpl, def || {}) : tmpl;
+
+    str = (<span class="hljs-string">"var out='"</span> + (c.strip ? str.replace(<span class="hljs-regexp">/(^|\r|\n)\t* +| +\t*(\r|\n|$)/g</span>,<span class="hljs-string">' '</span>)
+      .replace(<span class="hljs-regexp">/\r|\n|\t|\/\*[\s\S]*?\*\//g</span>,<span class="hljs-string">''</span>): str)
+      .replace(<span class="hljs-regexp">/'|\\/g</span>, <span class="hljs-string">'\\$&amp;'</span>)
+      .replace(c.interpolate || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, code</span>) </span>{
+        <span class="hljs-keyword">return</span> cse.start + <span class="hljs-built_in">unescape</span>(code) + cse.end;
+      })
+      .replace(c.encode || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, code</span>) </span>{
+        needhtmlencode = <span class="hljs-literal">true</span>;
+        <span class="hljs-keyword">return</span> cse.start + <span class="hljs-built_in">unescape</span>(code) + cse.endencode;
+      })
+      .replace(c.conditional || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, elsecase, code</span>) </span>{
+        <span class="hljs-keyword">return</span> elsecase ?
+          (code ? <span class="hljs-string">"';}else if("</span> + <span class="hljs-built_in">unescape</span>(code) + <span class="hljs-string">"){out+='"</span> : <span class="hljs-string">"';}else{out+='"</span>) :
+          (code ? <span class="hljs-string">"';if("</span> + <span class="hljs-built_in">unescape</span>(code) + <span class="hljs-string">"){out+='"</span> : <span class="hljs-string">"';}out+='"</span>);
+      })
+      .replace(c.iterate || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, iterate, vname, iname</span>) </span>{
+        <span class="hljs-keyword">if</span> (!iterate) <span class="hljs-keyword">return</span> <span class="hljs-string">"';} } out+='"</span>;
+        sid+=<span class="hljs-number">1</span>; indv=iname || <span class="hljs-string">"i"</span>+sid; iterate=<span class="hljs-built_in">unescape</span>(iterate);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"';var arr"</span>+sid+<span class="hljs-string">"="</span>+iterate+<span class="hljs-string">";if(arr"</span>+sid+<span class="hljs-string">"){var "</span>+vname+<span class="hljs-string">","</span>+indv+<span class="hljs-string">"=-1,l"</span>+sid+<span class="hljs-string">"=arr"</span>+sid+<span class="hljs-string">".length-1;while("</span>+indv+<span class="hljs-string">"&lt;l"</span>+sid+<span class="hljs-string">"){"</span>
+          +vname+<span class="hljs-string">"=arr"</span>+sid+<span class="hljs-string">"["</span>+indv+<span class="hljs-string">"+=1];out+='"</span>;
+      })
+      .replace(c.evaluate || skip, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">m, code</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"';"</span> + <span class="hljs-built_in">unescape</span>(code) + <span class="hljs-string">"out+='"</span>;
+      })
+    + <span class="hljs-string">"';return out;"</span>)
+      .replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'\\t'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>)
+      .replace(<span class="hljs-regexp">/(\s|;|\}|^|\{)out\+='';/g</span>, <span class="hljs-string">'$1'</span>).replace(<span class="hljs-regexp">/\+''/g</span>, <span class="hljs-string">''</span>)
+      .replace(<span class="hljs-regexp">/(\s|;|\}|^|\{)out\+=''\+/g</span>,<span class="hljs-string">'$1out+='</span>);
+
+    <span class="hljs-keyword">if</span> (needhtmlencode &amp;&amp; c.selfcontained) {
+      str = <span class="hljs-string">"String.prototype.encodeHTML=("</span> + encodeHTMLSource.toString() + <span class="hljs-string">"());"</span> + str;
+    }
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(c.varname, str);
+    } <span class="hljs-keyword">catch</span> (e) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">console</span> !== <span class="hljs-string">'undefined'</span>) <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Could not create a template function: "</span> + str);
+      <span class="hljs-keyword">throw</span> e;
+    }
+  };
+
+  doT.compile = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">tmpl, def</span>) </span>{
+    <span class="hljs-keyword">return</span> doT.template(tmpl, <span class="hljs-literal">null</span>, def);
+  };
+}());</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

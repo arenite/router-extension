@@ -1,0 +1,35 @@
+{
+  "name": "arenite-template-extensions",
+  "version": "1.1.5",
+  "description": "Arenite templating extensions",
+  "repository": "git://github.com/arenite/template-extension",
+  "author": {
+    "name": "Luís Serralheiro",
+    "email": "encavadas@gmail.com"
+  },
+  "jshintConfig": {
+    "bitwise": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "latedef": true,
+    "noarg": true,
+    "noempty": true,
+    "nonew": true,
+    "undef": true,
+    "unused": true,
+    "browser": true
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-arenite-src": "^1.2.6",
+    "gulp-minify-html": "^0.1.8",
+    "gulp-minify-css": "^0.4.5",
+    "gulp-less": "^3.0.0",
+    "gulp-uglify": "^1.0.2",
+    "gulp-jshint": "^1.9.0",
+    "gulp-concat": "^2.4.2",
+    "gulp-shell": "^0.2.11",
+    "docco": "^0.7.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "context": {
+    "dependencies": {
+      "default": {
+        "async": [
+          "build/router.min.js"
+        ]
+      },
+      "dev": {
+        "async": [
+          "js/router.js"
+        ]
+      }
+    },
+    "instances": {
+      "router": {
+        "namespace": "Arenite.Router",
+        "args": [
+          {
+            "ref": "arenite"
+          }
+        ]
+      }
+    }
+  }
+}

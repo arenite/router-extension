@@ -1,0 +1,21 @@
+<html>
+<head>
+  <script type="application/javascript" src="//rawgit.com/arenite/arenite/4816861e53a59154bb324fd748c67d77871aa1ef/build/arenite.js"></script>
+</head>
+<body>
+<script>
+  Arenite({
+    expose: 'arenite',
+    debug: function (arenite) {
+      return !!arenite.url.query().debug;
+    },
+    imports: {
+      test: {
+        module: ''
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
