@@ -62,7 +62,7 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
       args.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">arg, i</span>) </span>{
         values[vars[i]] = arg;
       });
-      exec.args.push({value:values});
+      exec.args.push({value: values});
       <span class="hljs-built_in">window</span>.console.log(<span class="hljs-string">'Arenite.Router: Executing route "'</span> + route + <span class="hljs-string">'" with:'</span>, exec);
       <span class="hljs-keyword">if</span> (updateHash) {
         <span class="hljs-built_in">window</span>.location.hash = updateHash;
@@ -82,7 +82,7 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
     arenite.object.keys(routes).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
       _add(route, routes[route]);
     });
-    arenite.config.context.start.push({func: _handleChange});
+    _handleChange();
   };
 
   <span class="hljs-keyword">var</span> _add = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route, executions</span>) </span>{
