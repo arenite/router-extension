@@ -50,7 +50,7 @@ Arenite.Router = function (arenite) {
     arenite.object.keys(routes).forEach(function (route) {
       _add(route, routes[route]);
     });
-    arenite.config.context.start.splice(0, 0, {func: _handleChange});
+    arenite.config.context.start.push({func: _handleChange});
   };
 
   var _add = function (route, executions) {
