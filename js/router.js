@@ -30,7 +30,7 @@ Arenite.Router = function (arenite) {
       args.forEach(function (arg, i) {
         values[vars[i]] = arg;
       });
-      exec.args.push({value:values});
+      exec.args.push({value: values});
       window.console.log('Arenite.Router: Executing route "' + route + '" with:', exec);
       if (updateHash) {
         window.location.hash = updateHash;
@@ -50,7 +50,7 @@ Arenite.Router = function (arenite) {
     arenite.object.keys(routes).forEach(function (route) {
       _add(route, routes[route]);
     });
-    arenite.config.context.start.push({func: _handleChange});
+    _handleChange();
   };
 
   var _add = function (route, executions) {
