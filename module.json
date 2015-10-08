@@ -12,7 +12,7 @@
         ]
       }
     },
-    "instances": {
+    "extensions": {
       "router": {
         "namespace": "Arenite.Router",
         "args": [
