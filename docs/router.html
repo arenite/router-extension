@@ -39,7 +39,7 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
     <span class="hljs-keyword">if</span> (hash.indexOf(<span class="hljs-string">'#'</span>) !== <span class="hljs-number">0</span>) {
       hash = <span class="hljs-string">'#'</span> + hash;
     }
-    arenite.object.keys(_routes).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
+    _routes.toKeyArray(_routes).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
       <span class="hljs-keyword">var</span> args = _routes[route].regex.exec(hash);
       <span class="hljs-keyword">if</span> (args) {
         args.splice(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
@@ -79,7 +79,7 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
     <span class="hljs-keyword">if</span> (!passive) {
       <span class="hljs-built_in">document</span>.body.onhashchange = _handleChange;
     }
-    arenite.object.keys(routes).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
+    routes.toKeyArray().forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route</span>) </span>{
       _add(route, routes[route]);
     });
     _handleChange();
