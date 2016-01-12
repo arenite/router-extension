@@ -7,7 +7,7 @@ Arenite.Router = function (arenite) {
     if (hash.indexOf('#') !== 0) {
       hash = '#' + hash;
     }
-    arenite.object.keys(_routes).forEach(function (route) {
+    _routes.toKeyArray(_routes).forEach(function (route) {
       var args = _routes[route].regex.exec(hash);
       if (args) {
         args.splice(0, 1);
@@ -47,7 +47,7 @@ Arenite.Router = function (arenite) {
     if (!passive) {
       document.body.onhashchange = _handleChange;
     }
-    arenite.object.keys(routes).forEach(function (route) {
+    routes.toKeyArray().forEach(function (route) {
       _add(route, routes[route]);
     });
     _handleChange();
