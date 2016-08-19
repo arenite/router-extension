@@ -18,6 +18,10 @@ Arenite.Router = function (arenite) {
 
   var _executeRoute = function (route, args, vars, updateHash) {
     _routes[route].executions.forEach(function (execution) {
+      if (updateHash && window.location.hash != updateHash) {// updating the hash will trigger the execution again
+        window.location.hash = updateHash;
+        return;
+      }
       var exec = JSON.parse(JSON.stringify(execution));
       if (typeof execution.func === 'function') {
         exec.func = execution.func;
@@ -32,9 +36,6 @@ Arenite.Router = function (arenite) {
       });
       exec.args.push({value: values});
       window.console.log('Arenite.Router: Executing route "' + route + '" with:', exec);
-      if (updateHash) {
-        window.location.hash = updateHash;
-      }
       arenite.di.exec(exec);
     });
   };

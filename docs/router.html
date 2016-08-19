@@ -50,6 +50,10 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
 
   <span class="hljs-keyword">var</span> _executeRoute = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">route, args, vars, updateHash</span>) </span>{
     _routes[route].executions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">execution</span>) </span>{
+      <span class="hljs-keyword">if</span> (updateHash &amp;&amp; <span class="hljs-built_in">window</span>.location.hash != updateHash) {<span class="hljs-comment">// updating the hash will trigger the execution again</span>
+        <span class="hljs-built_in">window</span>.location.hash = updateHash;
+        <span class="hljs-keyword">return</span>;
+      }
       <span class="hljs-keyword">var</span> exec = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(execution));
       <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> execution.func === <span class="hljs-string">'function'</span>) {
         exec.func = execution.func;
@@ -64,9 +68,6 @@ Arenite.Router = <span class="hljs-function"><span class="hljs-keyword">function
       });
       exec.args.push({value: values});
       <span class="hljs-built_in">window</span>.console.log(<span class="hljs-string">'Arenite.Router: Executing route "'</span> + route + <span class="hljs-string">'" with:'</span>, exec);
-      <span class="hljs-keyword">if</span> (updateHash) {
-        <span class="hljs-built_in">window</span>.location.hash = updateHash;
-      }
       arenite.di.exec(exec);
     });
   };
