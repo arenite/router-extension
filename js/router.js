@@ -2,7 +2,6 @@
 Arenite.Router = function (arenite) {
 
   var _routes = {};
-  var _skip = false;
 
   var _trigger = function (hash, updateHash) {
     if (hash.indexOf('#') !== 0) {
@@ -18,11 +17,10 @@ Arenite.Router = function (arenite) {
   };
 
   var _update = function (hash) {
-    _skip = true;
     if (hash.indexOf('#') !== 0) {
       hash = '#' + hash;
     }
-    window.location = hash;
+    history.replaceState(undefined, undefined, hash)
   };
 
   var _executeRoute = function (route, args, vars, updateHash) {
