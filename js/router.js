@@ -2,6 +2,7 @@
 Arenite.Router = function (arenite) {
 
   var _routes = {};
+  var _skip = false;
 
   var _trigger = function (hash, updateHash) {
     if (hash.indexOf('#') !== 0) {
@@ -16,9 +17,17 @@ Arenite.Router = function (arenite) {
     });
   };
 
+  var _update = function (hash) {
+    _skip = true;
+    if (hash.indexOf('#') !== 0) {
+      hash = '#' + hash;
+    }
+    window.location = hash;
+  };
+
   var _executeRoute = function (route, args, vars, updateHash) {
     _routes[route].executions.forEach(function (execution) {
-      if (updateHash && window.location.hash != updateHash) {// updating the hash will trigger the execution again
+      if (updateHash && window.location.hash !== updateHash) {// updating the hash will trigger the execution again
         window.location.hash = updateHash;
         return;
       }
@@ -41,7 +50,11 @@ Arenite.Router = function (arenite) {
   };
 
   var _handleChange = function () {
-    _trigger(window.location.hash);
+    if (_skip) {
+      _skip = false;
+    } else {
+      _trigger(window.location.hash);
+    }
   };
 
   var _init = function (routes, passive) {
@@ -71,6 +84,7 @@ Arenite.Router = function (arenite) {
     init: _init,
     add: _add,
     remove: _remove,
-    trigger: _trigger
+    trigger: _trigger,
+    update: _update
   };
 };

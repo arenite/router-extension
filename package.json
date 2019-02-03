@@ -1,8 +1,11 @@
 {
   "name": "arenite-template-extensions",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Arenite templating extensions",
-  "repository": "git://github.com/arenite/template-extension",
+  "repository": {
+    "url": "git://github.com/arenite/router-extension",
+    "type": "git"
+  },
   "author": {
     "name": "Luís Serralheiro",
     "email": "encavadas@gmail.com"
@@ -22,7 +25,7 @@
   },
   "devDependencies": {
     "gulp": "^3.8.10",
-    "gulp-arenite-src": "^2.0.2",
+    "gulp-arenite-src": "^2.0.13",
     "gulp-minify-html": "^0.1.8",
     "gulp-minify-css": "^0.4.5",
     "gulp-less": "^3.0.0",
