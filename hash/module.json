@@ -14,7 +14,7 @@
     },
     "extensions": {
       "router": {
-        "namespace": "Arenite.Router",
+        "namespace": "Arenite.HashRouter",
         "args": [
           {
             "ref": "arenite"

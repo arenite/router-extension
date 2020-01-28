@@ -1,5 +1,5 @@
 /*global Arenite:true*/
-Arenite.Router = function (arenite) {
+Arenite.HashRouter = function (arenite) {
 
   var _routes = {};
 
@@ -20,7 +20,7 @@ Arenite.Router = function (arenite) {
     if (hash.indexOf('#') !== 0) {
       hash = '#' + hash;
     }
-    history.replaceState(undefined, undefined, hash)
+    window.history.pushState(undefined, undefined, hash)
   };
 
   var _executeRoute = function (route, args, vars, updateHash) {
@@ -48,11 +48,7 @@ Arenite.Router = function (arenite) {
   };
 
   var _handleChange = function () {
-    if (_skip) {
-      _skip = false;
-    } else {
-      _trigger(window.location.hash);
-    }
+    _trigger(window.location.hash);
   };
 
   var _init = function (routes, passive) {
