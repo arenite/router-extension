@@ -8,7 +8,7 @@
       },
       "dev": {
         "async": [
-          "js/router.js"
+          "js/locationRouter.js"
         ]
       }
     },
